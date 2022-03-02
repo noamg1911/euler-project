@@ -1,0 +1,3 @@
+﻿  main.c
+C:\Users\User\EulerProject\euler10\euler10\main.c(39,1): warning C4244: 'initializing': conversion from 'ULONGLONG' to 'double', possible loss of data
+  euler10.vcxproj -> C:\Users\User\EulerProject\euler10\Debug\euler10.exe
