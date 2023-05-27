@@ -5,7 +5,7 @@ Cuboid Route
 import time
 from math import sqrt
 
-limit = 10
+limit = 100
 
 
 def get_base_pythagorian_triplet_from_index_var(index_value: int) -> tuple:
@@ -39,26 +39,29 @@ def get_max_num_cuts_and_starting_cut_size_for_cuboid_side(side_to_cut: int) -> 
     starting_cut_size = 1
     if side_to_cut > limit:
         starting_cut_size = side_to_cut - limit
-        max_num_cuts = min(max_num_cuts, starting_cut_size // 2, (limit - starting_cut_size) // 2)
+        max_num_cuts = min(max_num_cuts, (limit - starting_cut_size) // 2)
     return max_num_cuts, starting_cut_size
 
 
 def get_cuboid_variations_from_specific_side(side_to_cut: int, other_side: int):
     cuboid_variations = set()
+    if side_to_cut > limit:
+        print(side_to_cut)
     max_num_cuts, starting_cut_size = get_max_num_cuts_and_starting_cut_size_for_cuboid_side(side_to_cut)
-    for cuboid_height in range(starting_cut_size, max_num_cuts + 1):
-        side_to_cut -= 1
+    side_to_cut -= starting_cut_size
+    if starting_cut_size > 1:
+        print(starting_cut_size)
+    for cuboid_height in range(starting_cut_size, max_num_cuts + starting_cut_size + 1):
         cuboid_size = tuple(sorted((other_side, side_to_cut, cuboid_height)))
-        if cuboid_size[2] > limit:
-            print(cuboid_size, max_num_cuts, side_to_cut, other_side)
         cuboid_variations.add(cuboid_size)
+        side_to_cut -= 1
     return cuboid_variations
 
 
 def get_cuboid_variations_from_triplet(triplet: tuple):
     short_side, middle_side, long_side = triplet
     cuboid_variations = set()
-    if middle_side < limit:
+    if middle_side <= limit:
         cuboid_variations.update(get_cuboid_variations_from_specific_side(short_side, middle_side))
     cuboid_variations.update(get_cuboid_variations_from_specific_side(middle_side, short_side))
     return cuboid_variations
